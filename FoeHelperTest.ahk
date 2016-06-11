@@ -1,29 +1,29 @@
 /*
 	###########################################################################################
-	###		Script to push the "Help" button automatically 				###
-	###			Made by Alexander Dominikus (DasLoki)				###
-	###											###
-	###MIT License										###
-	###											###
-	###Copyright (c) 2016 Alexander Dominikus						###
-	###											###
-	###Permission is hereby granted, free of charge, to any person obtaining a copy		###
-	###of this software and associated documentation files (the "Software"), to deal	###
-	###in the Software without restriction, including without limitation the rights		###
-	###to use, copy, modify, merge, publish, distribute, sublicense, and/or sell		###
-	###copies of the Software, and to permit persons to whom the Software is		###
-	###furnished to do so, subject to the following conditions:				###
-	###											###
-	###The above copyright notice and this permission notice shall be included in all	###
-	###copies or substantial portions of the Software.					###
-	###											###
-	###THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR		###
-	###IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,		###
-	###FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE		###
-	###AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER		###
-	###LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,	###
-	###OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE	###
-	###SOFTWARE.										###
+	###		Script to push the "Help" button automatically  								###
+	###			Made by Alexander Dominikus (DasLoki)										###
+	###																						###
+	###MIT License																			###
+	###																						###
+	###Copyright (c) 2016 Alexander Dominikus												###
+	###																						###
+	###Permission is hereby granted, free of charge, to any person obtaining a copy			###
+	###of this software and associated documentation files (the "Software"), to deal		###
+	###in the Software without restriction, including without limitation the rights			###
+	###to use, copy, modify, merge, publish, distribute, sublicense, and/or sell			###
+	###copies of the Software, and to permit persons to whom the Software is				###
+	###furnished to do so, subject to the following conditions:								###
+	###																						###
+	###The above copyright notice and this permission notice shall be included in all		###
+	###copies or substantial portions of the Software.										###
+	###																						###
+	###THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR			###
+	###IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,				###
+	###FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE			###
+	###AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER				###
+	###LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,		###
+	###OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE		###
+	###SOFTWARE.																			###
 	###########################################################################################
 */
 
@@ -48,7 +48,7 @@ Gui, Add, Button, x65 y120 w50 gConfig, Config
 Gui, Add, Button, x120 y120 w50 gCancelExit, Cancel
 Gui, Show
 
-^!r::
+Escape::
 	Reload
 return
 
@@ -58,113 +58,115 @@ FoELoopCount:
 	IniWrite, %NH%, foetest.ini, loopcount, nh
 	IniWrite, %GD%, foetest.ini, loopcount, gd
 	IniWrite, %FL%, foetest.ini, loopcount, fl
-	IniRead, NHx, foetest.ini, positions, nhx
-	IniRead, NHy, foetest.ini, positions, nhy
-	IniRead, GDx, foetest.ini, positions, gdx
-	IniRead, GDy, foetest.ini, positions, gdy
-	IniRead, FLx, foetest.ini, positions, flx
-	IniRead, FLy, foetest.ini, positions, fly
-	IniRead, Nextx, foetest.ini, positions, Nextx
-	IniRead, Nexty, foetest.ini, positions, Nexty
-	IniRead, Firstx, foetest.ini, positions, Firstx
-	IniRead, Firsty, foetest.ini, positions, Firsty
-	IniRead, H1x, foetest.ini, positions, h1x
-	IniRead, H1y, foetest.ini, positions, h1y
-	IniRead, H2x, foetest.ini, positions, h2x
-	IniRead, H2y, foetest.ini, positions, h2y
-	IniRead, H3x, foetest.ini, positions, h3x
-	IniRead, H3y, foetest.ini, positions, h3y
-	IniRead, H4x, foetest.ini, positions, h4x
-	IniRead, H4y, foetest.ini, positions, h4y
-	IniRead, H5x, foetest.ini, positions, h5x
-	IniRead, H5y, foetest.ini, positions, h5y
-	IniRead, BPx, foetest.ini, positions, bpx
-	IniRead, BPy, foetest.ini, positions, bpy
 	IniRead, BPcolor, foetest.ini, positions, bpcolor
 	ActiveList:=0
 	BPCount:=0
 	prog:=0
-	progmax+=Ceil(NH/5)
-	progmax+=Ceil(GD/5)
-	progmax+=Ceil(FL/5)
-	progmax*=5
+	progmax=0
+	progmax+=NH
+	progmax+=GD
+	progmax+=FL
+	prog_step:=progmax/100
 	Gui +AlwaysOnTop
 	Gui, Add, Progress, x22 y39 w160 h20 Range0-%progmax% vProgressbar
 	Gui, Add, Text, x22 y9 w160 h20 +Center vProgressText
+	Gui, Add, Text, x22 y56 w160 h20 +Center, (ESC to Abort)
 	Gui, Show, x318 y214 h72 w209 NoActivate, ForgeHelper
 	GuiControl,, ProgressText, %prog%/%progmax%
-	CheckPixel = 0x182375
 	SetTitleMatchMode, 2
 	IfWinNotActive, Forge of Empires 
 	{
 		WinWaitActive, Forge of Empires
 	}
+	WinGetPos, X, Y, WinW, WinH, A
+	TabY:=WinH-150
+	HY:=WinH-20
+	FirstY:=WinH-41
+	NextY:=WinH-75
+	PSY1:=WinH-30
+	PSY2:=WinH-12
+	hPixel:=0x1C498A
+	Brown:=0x0B1D34
 	while(ActiveList < 3)
 	{
 		If(ActiveList = 0)
 		{
 			IniRead, loopcount, foetest.ini, loopcount, nh
 			loopcount:=Ceil(loopcount/5)
-			MouseClick, Left, %NHx%, %NHy%, 1, 5 ; Click Neighbourhood
+			MouseClick, Left, 750, %TabY%, 1, 5 ; Click Neighbourhood
 			sleep, 500
 		}
 		else if(ActiveList = 1) {
 			IniRead, loopcount, foetest.ini, loopcount, gd
 			loopcount:=Ceil(loopcount/5)
-			MouseClick, Left, %GDx%, %GDy%, 1, 5 ; Click Guild
+			MouseClick, Left, 815, %TabY%, 1, 5 ; Click Guild
 			sleep, 500				
 		}
 		else if(ActiveList = 2) {
 			IniRead, loopcount, foetest.ini, loopcount, fl
 			loopcount:=Ceil(loopcount/5)
-			MouseClick, Left, %FLx%, %FLy%, 1, 5 ; Click Friendlist
+			MouseClick, Left, 880, %TabY%, 1, 5 ; Click Friendlist
 			sleep, 500
-		}
-		; ToolTip, % "List: " ActiveList ", Loop: " loopcount 
+		} 
 		
-		MouseClick, Left, %Firstx%, %Firsty%, 1, 5 ;Go to Liststart
-		sleep, 500
+		MouseClick, Left, 252, %FirstY%, 1, 5 ;Go to Liststart
+		sleep, 2000
+		HelpPixel = 0x1E4C8F
 		loop, %loopcount% {
-			MouseClick, Left, %H1x%, %H1y%, 1, 5 ; Click Help Button 1
-			Gosub, BPCheck
-			prog+=1
-			GuiControl,, Progressbar, +1
-			GuiControl,, ProgressText, %prog%/%progmax%
-			sleep, 2000
+			PixelSearch, PixelX, PixelY, 270, %PSY1%, 370, %PSY2%, 0x1C498A, 3, Fast
+			If (ErrorLevel = 0) {
+				MouseClick, Left, 350, %HY%, 1, 5 ; Click Help Button 1
+				sleep, 2000
+				Gosub, BPCheck
+			}				
+			else {
+			}
+			Gosub, RaiseProg
 			
-			MouseClick, Left, %H2x%, %H2y%, 1, 5 ; Click Help Button 2
-			Gosub, BPCheck
-			prog+=1
-			GuiControl,, Progressbar, +1
-			GuiControl,, ProgressText, %prog%/%progmax%
-			sleep, 2000
+			PixelSearch, PixelX, PixelY, 377, %PSY1%, 477, %PSY2%, 0x1C498A, 3, Fast
+			If (ErrorLevel = 0) {
+				MouseClick, Left, 457, %HY%, 1, 5 ; Click Help Button 2
+				sleep, 2000
+				Gosub, BPCheck
+			}				
+			else {
+			}
+			Gosub, RaiseProg
 			
-			MouseClick, Left, %H3x%, %H3y%, 1, 5 ; Click Help Button 3
-			Gosub, BPCheck
-			prog+=1
-			GuiControl,, Progressbar, +1
-			GuiControl,, ProgressText, %prog%/%progmax%
-			sleep, 2000
+			PixelSearch, PixelX, PixelY, 484, %PSY1%, 584, %PSY2%, 0x1C498A, 3, Fast
+			If (ErrorLevel = 0) {
+				MouseClick, Left, 564, %HY%, 1, 5 ; Click Help Button 3
+				sleep, 2000
+				Gosub, BPCheck
+			}				
+			else {
+			}
+			Gosub, RaiseProg
 			
-			MouseClick, Left, %H4x%, %H4y%, 1, 5 ; Click Help Button 4
-			Gosub, BPCheck
-			prog+=1
-			GuiControl,, Progressbar, +1
-			GuiControl,, ProgressText, %prog%/%progmax%
-			sleep, 2000
+			PixelSearch, PixelX, PixelY, 591, %PSY1%, 691, %PSY2%, 0x1C498A, 3, Fast
+			If (ErrorLevel = 0) {
+				MouseClick, Left, 671, %HY%, 1, 5 ; Click Help Button 4
+				sleep, 2000
+				Gosub, BPCheck
+			}				
+			else {
+			}
+			Gosub, RaiseProg
 			
-			MouseClick, Left, %H5x%, %H5y%, 1, 5 ; Click Help Button 5
-			Gosub, BPCheck
-			prog+=1
-			GuiControl,, Progressbar, +1
-			GuiControl,, ProgressText, %prog%/%progmax%
-			sleep, 2000
+			PixelSearch, PixelX, PixelY, 698, %PSY1%, 798, %PSY2%, 0x1C498A, 3, Fast
+			If (ErrorLevel = 0) {
+				MouseClick, Left, 778, %HY%, 1, 5 ; Click Help Button 5
+				sleep, 2000
+				Gosub, BPCheck
+			}				
+			else {
+			}
+			Gosub, RaiseProg
 			
-			MouseClick, Left, %Nextx%, %Nexty%, 1, 5 ; Go to next List (2ArrowButton)
+			MouseClick, Left, 922, %NextY%, 1, 5 ; Go to next List (2ArrowButton)
 			sleep, 1000
 		}
 		ActiveList+=1
-		; ToolTip
 	}
 	ActiveList:=0
 	Gui, Destroy
@@ -173,7 +175,30 @@ FoELoopCount:
 	ExitApp
 return
 
+RaiseProg:
+	prog+=1
+	GuiControl,, Progressbar, +1
+	GuiControl,, ProgressText, %prog%/%progmax%
+return
+
+ClickHelp:
+	MouseClick, Left, 0, 107,, 5,, R
+return
+
 BPCheck:
+	WinGetPos, X, Y, WinW, WinH, A
+	BPPSY1:=WinH-263
+	BPPSY2:=WinH-242
+	BPY:=WinH-250
+	PixelSearch, PixelX, PixelY, 853, %BPPSY1%, 1024, %BPPSY2%, 0x192479, 3, Fast
+	If (ErrorLevel = 0) {
+		MouseClick, Left, 1000, %BPY%, 1, 5 ; Close BP Window
+		BPCount+=1
+		sleep, 1000
+	}
+return
+
+BPCheckOld:
 	CheckPixel = %BPcolor%
 	PixelGetColor, pColor, %BPx%, %BPy%
 	If (pColor = CheckPixel) {
@@ -344,7 +369,7 @@ GetBPColor:
 		WinWaitActive, Forge of Empires
 	}
 	ToolTip
-	MouseMove, %colorBPx%, %colorBPy%, 5
+	; MouseMove, %colorBPx%, %colorBPy%, 5
 	PixelGetColor, GetBPColor, %colorBPx%, %colorBPy%
 	GuiControl,, %BPColor%, %GetBPColor%
 return
