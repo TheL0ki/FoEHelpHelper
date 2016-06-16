@@ -1,30 +1,30 @@
 /*
-	###########################################################################################
-	###		Script to push the "Help" button automatically  								###
-	###			Made by Alexander Dominikus (DasLoki)										###
-	###																						###
-	###MIT License																			###
-	###																						###
-	###Copyright (c) 2016 Alexander Dominikus												###
-	###																						###
+	###################################################################################################
+	###		Script to push the "Help" button automatically  				###
+	###			Made by Alexander Dominikus (DasLoki)					###
+	###												###
+	###MIT License											###
+	###												###
+	###Copyright (c) 2016 Alexander Dominikus							###
+	###												###
 	###Permission is hereby granted, free of charge, to any person obtaining a copy			###
 	###of this software and associated documentation files (the "Software"), to deal		###
 	###in the Software without restriction, including without limitation the rights			###
 	###to use, copy, modify, merge, publish, distribute, sublicense, and/or sell			###
-	###copies of the Software, and to permit persons to whom the Software is				###
-	###furnished to do so, subject to the following conditions:								###
-	###																						###
+	###copies of the Software, and to permit persons to whom the Software is			###
+	###furnished to do so, subject to the following conditions:					###
+	###												###
 	###The above copyright notice and this permission notice shall be included in all		###
-	###copies or substantial portions of the Software.										###
-	###																						###
+	###copies or substantial portions of the Software.						###
+	###												###
 	###THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR			###
-	###IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,				###
+	###IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,			###
 	###FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE			###
-	###AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER				###
+	###AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER			###
 	###LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,		###
 	###OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE		###
-	###SOFTWARE.																			###
-	###########################################################################################
+	###SOFTWARE.											###
+	###################################################################################################
 */
 
 if(FileExist("foetest.ini")) {
@@ -43,9 +43,8 @@ Gui, Add, Text, x10 y63, GD:
 Gui, Add, Edit, x45 y60 w30 r1 vGD, %gd%
 Gui, Add, Text, x10 y93, FL:
 Gui, Add, Edit, x45 y90 w30 r1 vFL, %fl%
-Gui, Add, Button, x10 y120 w50 gFoELoopCount Default, OK
-Gui, Add, Button, x65 y120 w50 gConfig, Config
-Gui, Add, Button, x120 y120 w50 gCancelExit, Cancel
+Gui, Add, Button, x8 y120 w97 h23 gFoELoopCount Default, OK
+Gui, Add, Button, x112 y120 w98 h23 gCancelExit, Cancel
 Gui, Show
 
 Escape::
@@ -68,7 +67,7 @@ FoELoopCount:
 	progmax+=FL
 	prog_step:=progmax/100
 	Gui +AlwaysOnTop
-	Gui, Add, Progress, x22 y39 w160 h20 Range0-%progmax% vProgressbar
+	Gui, Add, Progress, x22 y28 w160 h20 Range0-%progmax% vProgressbar BackgroundC0C0C0
 	Gui, Add, Text, x22 y9 w160 h20 +Center vProgressText
 	Gui, Add, Text, x22 y56 w160 h20 +Center, (ESC to Abort)
 	Gui, Show, x318 y214 h72 w209 NoActivate, ForgeHelper
@@ -170,7 +169,6 @@ FoELoopCount:
 	}
 	ActiveList:=0
 	Gui, Destroy
-	; FileDelete, foetest.ini
 	MsgBox, Fertig`n%BPCount% neue Blaupausen
 	ExitApp
 return
@@ -181,201 +179,23 @@ RaiseProg:
 	GuiControl,, ProgressText, %prog%/%progmax%
 return
 
-ClickHelp:
-	MouseClick, Left, 0, 107,, 5,, R
-return
-
 BPCheck:
 	WinGetPos, X, Y, WinW, WinH, A
-	BPPSY1:=WinH-263
-	BPPSY2:=WinH-242
-	BPY:=WinH-250
-	PixelSearch, PixelX, PixelY, 853, %BPPSY1%, 1024, %BPPSY2%, 0x192479, 3, Fast
+	BPX1:=Round((WinW/2)+5,0)
+	BPY1:=Round((WinH/2)+240,0)
+	BPX2:=Round((WinW/2)+175,0)
+	BPY2:=Round((WinW/2)+261,0)
+	BPCX:=Round((WinW/2)+140,0)
+	BPCY:=Round((WinH/2)+250,0)
+	PixelSearch, PixelX, PixelY, %BPX1%, %BPY1%, %BPX2%, %BPY2%, 0x192479, 3, Fast
 	If (ErrorLevel = 0) {
-		MouseClick, Left, 1000, %BPY%, 1, 5 ; Close BP Window
+		MouseClick, Left, %BPCX%, %BPCY%, 1, 5 ; Close BP Window
 		BPCount+=1
 		sleep, 1000
 	}
-return
-
-BPCheckOld:
-	CheckPixel = %BPcolor%
-	PixelGetColor, pColor, %BPx%, %BPy%
-	If (pColor = CheckPixel) {
-		MouseClick, Left, %BPx%, %BPy%, 1, 5 ; Close BP Window
-		BPCount+=1
-		sleep, 1000
-	}
-return
-
-Config:
-	If(FileExist("foetest.ini")) {
-	IniRead, NHx, foetest.ini, positions, nhx
-	IniRead, NHy, foetest.ini, positions, nhy
-	IniRead, GDx, foetest.ini, positions, gdx
-	IniRead, GDy, foetest.ini, positions, gdy
-	IniRead, FLx, foetest.ini, positions, flx
-	IniRead, FLy, foetest.ini, positions, fly
-	IniRead, Nextx, foetest.ini, positions, Nextx
-	IniRead, Nexty, foetest.ini, positions, Nexty
-	IniRead, Firstx, foetest.ini, positions, Firstx
-	IniRead, Firsty, foetest.ini, positions, Firsty
-	IniRead, H1x, foetest.ini, positions, h1x
-	IniRead, H1y, foetest.ini, positions, h1y
-	IniRead, H2x, foetest.ini, positions, h2x
-	IniRead, H2y, foetest.ini, positions, h2y
-	IniRead, H3x, foetest.ini, positions, h3x
-	IniRead, H3y, foetest.ini, positions, h3y
-	IniRead, H4x, foetest.ini, positions, h4x
-	IniRead, H4y, foetest.ini, positions, h4y
-	IniRead, H5x, foetest.ini, positions, h5x
-	IniRead, H5y, foetest.ini, positions, h5y
-	IniRead, BPx, foetest.ini, positions, bpx
-	IniRead, BPy, foetest.ini, positions, bpy
-	IniRead, BPcolor, foetest.ini, positions, bpcolor
-	} else {
-		NHx:=0
-		NHy:=0
-		GDx:=0
-		GDy:=0
-		FLx:=0
-		FLy:=0
-		Nextx:=0
-		Nexty:=0
-		Firstx:=0
-		Firsty:=0
-		H1x:=0
-		H1y:=0
-		H2x:=0
-		H2y:=0
-		H3x:=0
-		H3y:=0
-		H4x:=0
-		H4y:=0
-		H5x:=0
-		H5y:=0
-		BPx:=0
-		BPy:=0
-		BPcolor:=0
-	}
-	Gui, New
-	Gui, Add, Picture, x12 y9 w60 h40 , C:\Users\uyve7bo\Pictures\nh.png
-	Gui, Add, Picture, x12 y59 w60 h40 , C:\Users\uyve7bo\Pictures\gd.PNG
-	Gui, Add, Picture, x12 y109 w60 h40 , C:\Users\uyve7bo\Pictures\fl.PNG
-	Gui, Add, Picture, x42 y159 w30 h30 , C:\Users\uyve7bo\Pictures\next.PNG
-	Gui, Add, Picture, x42 y199 w30 h30 , C:\Users\uyve7bo\Pictures\SL.PNG
-	Gui, Add, Text, x82 y19 w20 h20 +Right, X:
-	Gui, Add, Text, x82 y69 w20 h20 +Right, X:
-	Gui, Add, Text, x82 y119 w20 h20 +Right, X:
-	Gui, Add, Text, x82 y169 w20 h20 +Right, X:
-	Gui, Add, Text, x82 y209 w20 h20 +Right, X:
-	Gui, Add, Edit, x112 y69 w60 h20 +vGDx, %GDx%
-	Gui, Add, Edit, x112 y119 w60 h20 +vFLx, %FLx%
-	Gui, Add, Edit, x112 y169 w60 h20 +vNextx, %Nextx%
-	Gui, Add, Text, x182 y19 w20 h20 +Right, Y:
-	Gui, Add, Text, x182 y69 w20 h20 +Right, Y:
-	Gui, Add, Text, x182 y119 w20 h20 +Right, Y:
-	Gui, Add, Text, x182 y169 w20 h20 +Right, Y:
-	Gui, Add, Text, x182 y209 w20 h20 +Right, Y:
-	Gui, Add, Edit, x212 y19 w60 h20 +vNHy, %NHy%
-	Gui, Add, Edit, x212 y69 w60 h20 +vGDy, %GDy%
-	Gui, Add, Edit, x212 y119 w60 h20 +vFLy, %FLy%
-	Gui, Add, Edit, x212 y169 w60 h20 +vNexty, %Nexty%
-	Gui, Add, Edit, x212 y209 w60 h20 +vFirsty, %Firsty%
-	Gui, Add, Edit, x112 y209 w60 h20 +vFirstx, %Firstx%
-	Gui, Add, Edit, x112 y19 w60 h20 +vNHx, %NHx%
-	Gui, Add, Button, x12 y469 w110 h30 gSaveConfig, Save
-	Gui, Add, Button, x172 y469 w110 h30 gDestroyGui, Cancel
-	Gui, Add, Text, x82 y249 w20 h20 +Right, X:
-	Gui, Add, Edit, x112 y249 w60 h20 +vH1x, %H1x%
-	Gui, Add, Text, x182 y249 w20 h20 +Right, Y:
-	Gui, Add, Edit, x212 y249 w60 h20 +vH1y, %H1y%
-	Gui, Add, Text, x82 y279 w20 h20 +Right, X:
-	Gui, Add, Edit, x112 y279 w60 h20 +vH2x, %H2x%
-	Gui, Add, Text, x182 y279 w20 h20 +Right, Y:
-	Gui, Add, Edit, x212 y279 w60 h20 +vH2y, %H2y%
-	Gui, Add, Text, x72 y429 w30 h20 +Right, Color:
-	Gui, Add, Edit, x112 y429 w60 h20 +ReadOnly +vBPcolor, %BPcolor%
-	Gui, Add, Edit, x112 y309 w60 h20 +vH3x, %H3x%
-	Gui, Add, Edit, x212 y309 w60 h20 +vH3y, %H3y%
-	Gui, Add, Text, x82 y309 w20 h20 +Right, X:
-	Gui, Add, Text, x182 y309 w20 h20 +Right, Y:
-	Gui, Add, Text, x82 y339 w20 h20 +Right, X:
-	Gui, Add, Text, x182 y339 w20 h20 +Right, Y:
-	Gui, Add, Edit, x112 y339 w60 h20 +vH4x, %H4x%
-	Gui, Add, Edit, x212 y339 w60 h20 +vH4y, %H4y%
-	Gui, Add, Text, x82 y369 w20 h20 +Right, X:
-	Gui, Add, Edit, x112 y369 w60 h20 +vH5x, %H5x%
-	Gui, Add, Text, x182 y369 w20 h20 +Right, Y:
-	Gui, Add, Edit, x212 y369 w60 h20 +vH5y, %H5y%
-	Gui, Add, Text, x82 y399 w20 h20 +Right, X:
-	Gui, Add, Edit, x112 y399 w60 h20 +vBPx, %BPx%
-	Gui, Add, Text, x182 y399 w20 h20 +Right, Y:
-	Gui, Add, Edit, x212 y399 w60 h20 +vBPy, %BPy%
-	Gui, Add, Text, x2 y249 w70 h20 +Right, Help Button 1:
-	Gui, Add, Text, x2 y279 w70 h20 +Right, Help Button 2:
-	Gui, Add, Text, x2 y309 w70 h20 +Right, Help Button 3:
-	Gui, Add, Text, x2 y339 w70 h20 +Right, Help Button 4:
-	Gui, Add, Text, x2 y369 w70 h20 +Right, Help Button 5:
-	Gui, Add, Text, x2 y399 w70 h20 +Right, BP Close Button:
-	Gui, Add, Button, x182 y429 w90 h20 +gGetBPColor, Get Color
-	; Generated using SmartGUI Creator 4.0
-	Gui, Show, x238 y148 h516 w302, FoEHelper Config
-	tooltipcheck:=True
-	while(tooltipcheck=True)
-	{
-		MouseGetPos, MouseX, MouseY
-		PixelGetColor, MousePColor, %MouseX%, %MouseY%
-		ToolTip, % "X: " MouseX " Y: " MouseY "`nColor: " MousePColor
-	}
-	ToolTip
-Return
-
-SaveConfig:
-	tooltipcheck:=False
-	Gui, Submit
-	IniWrite, %NHx%, foetest.ini, positions, nhx
-	IniWrite, %NHy%, foetest.ini, positions, nhy
-	IniWrite, %GDx%, foetest.ini, positions, gdx
-	IniWrite, %GDy%, foetest.ini, positions, gdy
-	IniWrite, %FLy%, foetest.ini, positions, flx
-	IniWrite, %FLy%, foetest.ini, positions, fly
-	IniWrite, %Nextx%, foetest.ini, positions, Nextx
-	IniWrite, %Nexty%, foetest.ini, positions, Nexty
-	IniWrite, %Firstx%, foetest.ini, positions, Firstx
-	IniWrite, %Firsty%, foetest.ini, positions, Firsty
-	IniWrite, %H1x%, foetest.ini, positions, h1x
-	IniWrite, %H1y%, foetest.ini, positions, h1y
-	IniWrite, %H2x%, foetest.ini, positions, h2x
-	IniWrite, %H2y%, foetest.ini, positions, h2y
-	IniWrite, %H3x%, foetest.ini, positions, h3x
-	IniWrite, %H3y%, foetest.ini, positions, h3y
-	IniWrite, %H4x%, foetest.ini, positions, h4x
-	IniWrite, %H4y%, foetest.ini, positions, h4y
-	IniWrite, %H5x%, foetest.ini, positions, h5x
-	IniWrite, %H5y%, foetest.ini, positions, h5y
-	IniWrite, %BPx%, foetest.ini, positions, bpx
-	IniWrite, %BPy%, foetest.ini, positions, bpy
-	IniWrite, %BPcolor%, foetest.ini, positions, bpcolor
-	Gui, Destroy
-return
-
-GetBPColor:
-	ControlGetText, colorBPx, Edit22
-	ControlGetText, colorBPy, Edit23
-	IfWinNotActive, Forge of Empires 
-	{
-		ToolTip, Please open FOE
-		WinWaitActive, Forge of Empires
-	}
-	ToolTip
-	; MouseMove, %colorBPx%, %colorBPy%, 5
-	PixelGetColor, GetBPColor, %colorBPx%, %colorBPy%
-	GuiControl,, %BPColor%, %GetBPColor%
 return
 
 DestroyGui:
-	tooltipcheck:=False
 	Gui, Destroy
 return
 
