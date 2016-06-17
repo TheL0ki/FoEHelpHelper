@@ -187,7 +187,7 @@ BPCheck:
 	BPY2:=Round((WinW/2)+261,0)
 	BPCX:=Round((WinW/2)+140,0)
 	BPCY:=Round((WinH/2)+250,0)
-	PixelSearch, PixelX, PixelY, %BPX1%, %BPY1%, %BPX2%, %BPY2%, 0x192479, 3, Fast
+	PixelSearch, PixelX, PixelY, %BPX1%, %BPY1%, %BPX2%, %BPY2%, 0x192479, 0, Fast
 	If (ErrorLevel = 0) {
 		MouseClick, Left, %BPCX%, %BPCY%, 1, 5 ; Close BP Window
 		BPCount+=1
