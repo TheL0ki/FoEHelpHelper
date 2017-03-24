@@ -128,6 +128,7 @@ FoELoopCount:
 					MouseClick, Left, 364, %TavY1%, 1, 5
 					sleep, 2000
 					MouseClick, Left, 364, %TavY1%, 1, 5
+					sleep, 2000
 					TavCount+=1
 				}
 			}
@@ -147,6 +148,7 @@ FoELoopCount:
 					MouseClick, Left, 471, %TavY1%, 1, 5
 					sleep, 2000
 					MouseClick, Left, 471, %TavY1%, 1, 5
+					sleep, 2000
 					TavCount+=1
 				}
 			}
@@ -164,8 +166,9 @@ FoELoopCount:
 				PixelSearch, PixelX, PixelY, 578, %TavY1%, 579, %TavY2%, 0x5D8494, 3
 				If (ErrorLevel = 0) {
 					MouseClick, Left, 578, %TavY1%, 1, 5
-					sleep, 1000
+					sleep, 2000
 					MouseClick, Left, 578, %TavY1%, 1, 5
+					sleep, 2000
 					TavCount+=1
 				}
 			}
@@ -183,8 +186,9 @@ FoELoopCount:
 					PixelSearch, PixelX, PixelY, 685, %TavY1%, 686, %TavY2%, 0x5D8494, 3
 					If (ErrorLevel = 0) {
 						MouseClick, Left, 685, %TavY1%, 1, 5
-						sleep, 1000
+						sleep, 2000
 						MouseClick, Left, 685, %TavY1%, 1, 5
+						sleep, 2000
 						TavCount+=1
 					}
 				}
@@ -202,8 +206,9 @@ FoELoopCount:
 					PixelSearch, PixelX, PixelY, 792, %TavY1%, 793, %TavY2%, 0x5D8494, 3
 					If (ErrorLevel = 0) {
 						MouseClick, Left, 792, %TavY1%, 1, 5
-						sleep, 1000
+						sleep, 2000
 						MouseClick, Left, 792, %TavY1%, 1, 5
+						sleep, 2000
 						TavCount+=1
 					}
 				}
