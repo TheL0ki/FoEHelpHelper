@@ -31,21 +31,25 @@ if(FileExist("foeHelpConfig.ini")) {
 	IniRead, nh, foeHelpConfig.ini, loopcount, nh
 	IniRead, gd, foeHelpConfig.ini, loopcount, gd
 	IniRead, fl, foeHelpConfig.ini, loopcount, fl
+	IniRead, tav, foeHelpConfig.ini, loopcount, tav
 } else {
 	nh:=0
 	gd:=0
 	fl:=0
+	tav:=0
 }
-Gui, Add, Text, x10 y5, Anzahl Spieler in Nachbarschaft/Gilde/FL:
-Gui, Add, Text, x10 y33, NH:
-Gui, Add, Edit, x45 y30 w30 r1 vNH, %nh%
-Gui, Add, Text, x10 y63, GD:
-Gui, Add, Edit, x45 y60 w30 r1 vGD, %gd%
-Gui, Add, Text, x10 y93, FL:
-Gui, Add, Edit, x45 y90 w30 r1 vFL, %fl%
-Gui, Add, Button, x8 y120 w97 h23 gFoELoopCount Default, OK
-Gui, Add, Button, x112 y120 w98 h23 gCancelExit, Cancel
-Gui, Show,,Foe Helper v0.6
+
+Gui Add, Text, x10 y5 w200 h26, Anzahl Spieler in Nachbarschaft/Gilde/FL:
+Gui Add, Text, x10 y33 w19 h26, NH:
+Gui Add, Edit, x45 y30 w30 h21, %nh%
+Gui Add, Text, x10 y63 w19 h26, GD:
+Gui Add, Edit, x45 y60 w30 h21, %gd%
+Gui Add, Text, x10 y93 w15 h26, FL:
+Gui Add, Edit, x45 y90 w30 h21, %fl%
+Gui Add, CheckBox, x10 y115 w201 h23 vTavCheck checked%tav%, Tavernen besuchen?
+Gui Add, Button, x10 y142 w97 h23 gFoELoopCount Default, OK
+Gui Add, Button, x112 y142 w98 h23 gCancelExit, Cancel
+Gui Show, w225 h179, Foe Helper v0.6
 
 Escape::
 	Reload
@@ -57,6 +61,7 @@ FoELoopCount:
 	IniWrite, %NH%, foeHelpConfig.ini, loopcount, nh
 	IniWrite, %GD%, foeHelpConfig.ini, loopcount, gd
 	IniWrite, %FL%, foeHelpConfig.ini, loopcount, fl
+	IniWrite, %TavCheck%, foeHelpConfig.ini, loopcount, tav
 	IniRead, BPcolor, foeHelpConfig.ini, positions, bpcolor
 	ActiveList:=0
 	BPCount:=0
@@ -122,7 +127,7 @@ FoELoopCount:
 				Gosub, BPCheck				
 			}
 			
-			if(ActiveList = 2) {
+			if(ActiveList = 2 AND TavCheck = 1) {
 				PixelSearch, PixelX, PixelY, 364, %TavY1%, 365, %TavY2%, 0x5D8494, 3
 				If (ErrorLevel = 0) {
 					MouseClick, Left, 364, %TavY1%, 1, 5
@@ -142,7 +147,7 @@ FoELoopCount:
 				Gosub, BPCheck				
 			}
 			
-			if(ActiveList = 2) {
+			if(ActiveList = 2 AND TavCheck = 1) {
 				PixelSearch, PixelX, PixelY, 471, %TavY1%, 472, %TavY2%, 0x5D8494, 3
 				If (ErrorLevel = 0) {
 					MouseClick, Left, 471, %TavY1%, 1, 5
@@ -162,7 +167,7 @@ FoELoopCount:
 				Gosub, BPCheck				
 			}
 			
-			if(ActiveList = 2) {
+			if(ActiveList = 2 AND TavCheck = 1) {
 				PixelSearch, PixelX, PixelY, 578, %TavY1%, 579, %TavY2%, 0x5D8494, 3
 				If (ErrorLevel = 0) {
 					MouseClick, Left, 578, %TavY1%, 1, 5
@@ -182,7 +187,7 @@ FoELoopCount:
 				Gosub, BPCheck				
 			}				
 			
-			if(ActiveList = 2) {
+			if(ActiveList = 2 AND TavCheck = 1) {
 					PixelSearch, PixelX, PixelY, 685, %TavY1%, 686, %TavY2%, 0x5D8494, 3
 					If (ErrorLevel = 0) {
 						MouseClick, Left, 685, %TavY1%, 1, 5
@@ -202,7 +207,7 @@ FoELoopCount:
 				Gosub, BPCheck				
 			}
 			
-			if(ActiveList = 2) {
+			if(ActiveList = 2 AND TavCheck = 1) {
 					PixelSearch, PixelX, PixelY, 792, %TavY1%, 793, %TavY2%, 0x5D8494, 3
 					If (ErrorLevel = 0) {
 						MouseClick, Left, 792, %TavY1%, 1, 5
